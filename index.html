@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordle Game</title>
+    <style>
+        input {
+            width: 30px;
+            text-align: center;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Wordle Game</h1>
+    <p>Guess the secret word:</p>
+    <div id="wordContainer"></div>
+    <br>
+    <input type="text" id="guessInput" maxlength="5">
+    <button onclick="checkGuess()">Guess</button>
+    <br>
+    <p id="feedback"></p>
+
+    <script>
+        const secretWord = "apple";
+        const guessedWord = Array(secretWord.length).fill("_");
+
+        function displayWord() {
+            const wordContainer = document.getElementById("wordContainer");
+            wordContainer.innerHTML = guessedWord.join(" ");
+        }
+
+        function checkGuess() {
+            const guessInput = document.getElementById("guessInput");
+            const guess = guessInput.value.toLowerCase();
+
+            if (guess.length !== 1) {
+                alert("Please enter a single letter.");
+                return;
+            }
+
+            if (!/[a-z]/.test(guess)) {
+                alert("Please enter a valid letter (a-z).");
+                return;
+            }
+
+            if (secretWord.includes(guess)) {
+                // Update guessedWord with correct guesses
+                for (let i = 0; i < secretWord.length; i++) {
+                    if (secretWord[i] === guess) {
+                        guessedWord[i] = guess;
+                    }
+                }
+            }
+
+            displayWord();
+
+            if (guessedWord.join("") === secretWord) {
+                document.getElementById("feedback").textContent = "Congratulations! You guessed the word!";
+            } else {
+                document.getElementById("feedback").textContent = "Keep guessing!";
+            }
+
+            // Clear the input field
+            guessInput.value = "";
+        }
+
+        displayWord(); // Initial display
+
+    </script>
+</body>
+</html>
+
+
